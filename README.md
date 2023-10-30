@@ -100,5 +100,13 @@ pnpm i commitlint @commitlint/cli @commitlint/config-conventional -D
 npx husky add .husky/pre-commit "npx --no-install commitlint --edit "$1""
 ```
 
+3. 通过lint-staged 来只对新增的文件内容进行检查
+package.json中添加
+```json
+  "lint-stage": {
+    "**/*.{js,jsx,ts,tsx}": ["npm run lint"]
+  },
+```
+
 
 ### 搭建单元测试/E2E 测试环境
