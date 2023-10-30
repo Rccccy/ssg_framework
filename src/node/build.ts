@@ -6,8 +6,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import ora from 'ora';
 
-console.log('test commit');
-
 export async function bundle(root: string) {
   try {
     const resolveViteConfig = (isServer: boolean): InlineConfig => {
