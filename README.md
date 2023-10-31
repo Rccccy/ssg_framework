@@ -92,12 +92,19 @@ npx husky add .husky/pre-commit "pnpm run lint"
 - package.json中添加脚本 "prepare": "husky install", npm 安装依赖的时候自动执行脚本
 
 - 配置commit信息的检查
+创建.commitlintrc.cjs文件 添加
+```js
+module.exports = {
+  extends: ['@commitlint/config-conventional']
+}
+
+```
 ```shell
 pnpm i commitlint @commitlint/cli @commitlint/config-conventional -D
 ```
 
 ```shell
-npx husky add .husky/pre-commit "npx --no-install commitlint --edit "$1""
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit \"$1\""
 ```
 
 3. 通过lint-staged 来只对新增的文件内容进行检查
@@ -108,5 +115,28 @@ package.json中添加
   },
 ```
 
+修改 .husky/pre-commit 文件内容
+```shell
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no -- lint-staged
+
+```
+
 
 ### 搭建单元测试/E2E 测试环境
+使用Vitest 来进行单元测试和E2E 测试
+>E2E测试: 也叫端到端的测试，与单元测试不同，它是从端用户的角度出发测试系统的行为
+使用 pnpm i @playwright/test@1.26.1 -D 来安装
+
+E2E的测试需要哪些要素？
+1. 创建测试项目
+2. 启动项目
+3. 开启无头浏览器进行访问(可以使用playwright)
+
+
+
+### island配置文件解析
+1. 通用配置解析器
+
