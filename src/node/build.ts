@@ -4,14 +4,21 @@ import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import type { RollupOutput } from 'rollup';
 import path from 'path';
 import fs from 'fs-extra';
-import ora from 'ora';
+// import ora from 'ora';
+import { SiteConfig } from 'share/types';
+import pluginReact from '@vitejs/plugin-react';
+import { pluginConfig } from './plugin-island/config';
 
-export async function bundle(root: string) {
+export async function bundle(root: string, config: SiteConfig) {
   try {
     const resolveViteConfig = (isServer: boolean): InlineConfig => {
       return {
         mode: 'production',
         root,
+        ssr: {
+          noExternal: ['react-router-dom'] //将react-router-dom 这个包打包进我们的产物中，这样就不用去引入了第三方包了，解决了 第三方包中 cjs 不能直接引入esm的包
+        },
+        plugins: [pluginReact(), pluginConfig(config)],
         build: {
           ssr: isServer,
           outDir: isServer ? '.temp' : 'build',
@@ -25,8 +32,8 @@ export async function bundle(root: string) {
       };
     };
     // const { default: ora } = await dynamicImport("ora");
-    const spinner = ora();
-    spinner.start('building....');
+    // const spinner = ora();
+    // spinner.start('building....');
     const clientBuild = async () => {
       return viteBuild(resolveViteConfig(false));
     };
@@ -71,9 +78,9 @@ export async function renderPage(
   await fs.writeFile(path.join(root, 'build', 'index.html'), html);
   await fs.remove(path.join(root, '.temp'));
 }
-export async function build(root: string) {
+export async function build(root: string, config: SiteConfig) {
   // 1. bundle -client端 + server端
-  const [clientBundle] = await bundle(root);
+  const [clientBundle] = await bundle(root, config);
 
   // 2. 引入 server-entry模块
   const serverEntryPath = path.join(root, '.temp', 'ssr-entry.js');

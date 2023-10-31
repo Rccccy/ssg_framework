@@ -24,14 +24,20 @@ export interface Footer {
 }
 
 export interface ThemeConfig {
-  nav: NavItemWithLInk[];
+  nav?: NavItemWithLInk[];
   sidebar?: SiderBar;
   footer?: Footer;
 }
 
 export interface UserConfig {
-  title: string;
-  description: string;
-  themeConfig: ThemeConfig;
-  vite: viteConfiguration;
+  title?: string;
+  description?: string;
+  themeConfig?: ThemeConfig;
+  vite?: viteConfiguration;
+}
+
+export interface SiteConfig {
+  root: string;
+  configPath: string;
+  siteData: UserConfig;
 }
