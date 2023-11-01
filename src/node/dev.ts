@@ -1,9 +1,7 @@
 import { createServer } from 'vite';
-import { pluginIndexHtml } from './plugin-island/indexHtml';
-import pluginReact from '@vitejs/plugin-react';
 import { PACKAGE_ROOT } from './constants';
 import { resolveConfig } from './config';
-import { pluginConfig } from './plugin-island/config';
+import { createVitePlugins } from './vitePlugins';
 
 export async function createDevServer(
   root: string,
@@ -14,7 +12,7 @@ export async function createDevServer(
   return createServer({
     root: PACKAGE_ROOT,
     // 引入我们写的插件
-    plugins: [pluginIndexHtml(), pluginReact(), pluginConfig(config, restart)],
+    plugins: createVitePlugins(config, restart),
     server: {
       fs: {
         allow: [PACKAGE_ROOT]

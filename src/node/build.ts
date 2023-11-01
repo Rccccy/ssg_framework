@@ -6,8 +6,7 @@ import path from 'path';
 import fs from 'fs-extra';
 // import ora from 'ora';
 import { SiteConfig } from 'share/types';
-import pluginReact from '@vitejs/plugin-react';
-import { pluginConfig } from './plugin-island/config';
+import { createVitePlugins } from './vitePlugins';
 
 export async function bundle(root: string, config: SiteConfig) {
   try {
@@ -18,7 +17,7 @@ export async function bundle(root: string, config: SiteConfig) {
         ssr: {
           noExternal: ['react-router-dom'] //将react-router-dom 这个包打包进我们的产物中，这样就不用去引入了第三方包了，解决了 第三方包中 cjs 不能直接引入esm的包
         },
-        plugins: [pluginReact(), pluginConfig(config)],
+        plugins: createVitePlugins(config),
         build: {
           ssr: isServer,
           outDir: isServer ? '.temp' : 'build',
