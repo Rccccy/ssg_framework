@@ -4,6 +4,7 @@ import { RouteService } from './RouteService';
 
 interface PluginOptions {
   root: string;
+  isSSR: boolean;
 }
 
 export const CONVENTIONAL_ROUTES_ID = 'island:routes';
@@ -21,7 +22,7 @@ export function pluginRoutes(options: PluginOptions): Plugin {
     },
     load(id) {
       if (id === '\0' + CONVENTIONAL_ROUTES_ID) {
-        return routerService.generateRoutesCode();
+        return routerService.generateRoutesCode(options.isSSR || false);
       }
     }
   };

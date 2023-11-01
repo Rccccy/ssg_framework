@@ -54,9 +54,8 @@ describe('Markdown compile case', async () => {
 
     const mdContent = '## title `xxx` [link](/path)';
     const result = remarkProcessor.processSync(mdContent);
-    expect(
-      result.value.toString().replace(mdContent, '')
-    ).toMatchInlineSnapshot(`
+    expect(result.value.toString().replace(mdContent, ''))
+      .toMatchInlineSnapshot(`
       "
 
       export const toc=[

@@ -2,11 +2,12 @@
 import { InlineConfig, build as viteBuild } from 'vite';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import type { RollupOutput } from 'rollup';
-import path from 'path';
+import path, { dirname, join } from 'path';
 import fs from 'fs-extra';
 // import ora from 'ora';
 import { SiteConfig } from 'share/types';
 import { createVitePlugins } from './vitePlugins';
+import { RouteObject } from 'react-router-dom';
 
 export async function bundle(root: string, config: SiteConfig) {
   try {
@@ -19,10 +20,10 @@ export async function bundle(root: string, config: SiteConfig) {
         ssr: {
           noExternal: ['react-router-dom'] //将react-router-dom 这个包打包进我们的产物中，这样就不用去引入了第三方包了，解决了 第三方包中 cjs 不能直接引入esm的包
         },
-        plugins: await createVitePlugins(config),
+        plugins: await createVitePlugins(config, undefined, isServer),
         build: {
           ssr: isServer,
-          outDir: isServer ? '.temp' : 'build',
+          outDir: isServer ? '.temp' : path.join(root, 'build'),
           rollupOptions: {
             input: isServer ? SERVER_ENTRY_PATH : CLIENT_ENTRY_PATH,
             output: {
@@ -53,30 +54,39 @@ export async function bundle(root: string, config: SiteConfig) {
 }
 
 export async function renderPage(
-  render: () => string,
+  render: (pagePath: string) => string,
   root: string,
-  clientBundle: RollupOutput
+  clientBundle: RollupOutput,
+  routes: RouteObject[]
 ) {
-  const appHtml = render();
   // 找到构建的chunk
   const clientChunk = clientBundle.output.find(
     (chunk) => chunk.type === 'chunk' && chunk.isEntry
   );
-  const html = `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-  </head>
-  <body>
-      <div id="root">${appHtml}</div>    
-      <script src="/${clientChunk.fileName}" type="module"></script>
-  </body>
-  </html>`.trim();
+  await Promise.all(
+    routes.map(async (route) => {
+      const routePath = route.path;
+      const appHtml = render(routePath);
+      const html = `<!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+      </head>
+      <body>
+          <div id="root">${appHtml}</div>    
+          <script src="/${clientChunk.fileName}" type="module"></script>
+      </body>
+      </html>`.trim();
+      const fileName = routePath.endsWith('/')
+        ? `${routePath}index.html`
+        : `${routePath}.html`;
+      await fs.ensureDir(join(root, 'build', dirname(fileName)));
+      await fs.writeFile(join(root, 'build', fileName), html);
+    })
+  );
 
-  //产物写到build目录下的index.html中
-  await fs.writeFile(path.join(root, 'build', 'index.html'), html);
   await fs.remove(path.join(root, '.temp'));
 }
 export async function build(root: string, config: SiteConfig) {
@@ -88,6 +98,6 @@ export async function build(root: string, config: SiteConfig) {
 
   // 3. 服务度渲染，产出HTML
 
-  const { render } = await import(serverEntryPath);
-  await renderPage(render, root, clientBundle as RollupOutput);
+  const { render, routes } = await import(serverEntryPath);
+  await renderPage(render, root, clientBundle as RollupOutput, routes);
 }
