@@ -149,3 +149,10 @@ E2E的测试需要哪些要素？
 
 
 ### 为什么使用UnoCSS
+- 优势：语法灵活、性能极高、调试性能好
+- 兼容了Tailwind CSS 和 Windi CSS
+- 支持Attributify 模式 样式属性化
+- 扩展性好，支持自定义匹配规则rules
+- 对css图标支持度高，开箱即用
+- 性能高，超出TailwindCSS 和 windiCSS
+- 原理：不使用AST，纯字符串操作； 避免了重复了IO，复用构建工具本身的结果  与webpack不搭，与webpack5物理缓存冲突

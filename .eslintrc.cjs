@@ -21,6 +21,7 @@ module.exports = {
     quotes: ["error", "single"],
     semi: ["error", "always"],
     "react/react-in-jsx-scope": "off", //在jsx文件中不再引入React
+    "react/no-unknown-property":"off",
   },
   settings:{
     react:{
