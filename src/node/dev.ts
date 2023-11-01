@@ -12,7 +12,7 @@ export async function createDevServer(
   return createServer({
     root: PACKAGE_ROOT,
     // 引入我们写的插件
-    plugins: createVitePlugins(config, restart),
+    plugins: await createVitePlugins(config, restart),
     server: {
       fs: {
         allow: [PACKAGE_ROOT]

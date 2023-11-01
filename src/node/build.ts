@@ -10,14 +10,16 @@ import { createVitePlugins } from './vitePlugins';
 
 export async function bundle(root: string, config: SiteConfig) {
   try {
-    const resolveViteConfig = (isServer: boolean): InlineConfig => {
+    const resolveViteConfig = async (
+      isServer: boolean
+    ): Promise<InlineConfig> => {
       return {
         mode: 'production',
         root,
         ssr: {
           noExternal: ['react-router-dom'] //将react-router-dom 这个包打包进我们的产物中，这样就不用去引入了第三方包了，解决了 第三方包中 cjs 不能直接引入esm的包
         },
-        plugins: createVitePlugins(config),
+        plugins: await createVitePlugins(config),
         build: {
           ssr: isServer,
           outDir: isServer ? '.temp' : 'build',
@@ -34,11 +36,11 @@ export async function bundle(root: string, config: SiteConfig) {
     // const spinner = ora();
     // spinner.start('building....');
     const clientBuild = async () => {
-      return viteBuild(resolveViteConfig(false));
+      return viteBuild(await resolveViteConfig(false));
     };
 
     const serverBuild = async () => {
-      return viteBuild(resolveViteConfig(true));
+      return viteBuild(await resolveViteConfig(true));
     };
     const [clientBundle, serverBundle] = await Promise.all([
       clientBuild(),
