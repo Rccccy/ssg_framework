@@ -30,6 +30,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^18.1.0",
+    "@iconify-json/carbon": "^1.1.21",
     "@playwright/test": "1.26.1",
     "@types/fs-extra": "^11.0.3",
     "@types/hast": "^2.3.4",
@@ -54,6 +55,7 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
     "remark-stringify": "^11.0.0",
+    "sass": "^1.69.5",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "unified": "^11.0.4",

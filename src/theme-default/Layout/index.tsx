@@ -1,13 +1,27 @@
-import { Content } from '@runtime';
-import 'unocss';
+import { usePageData } from '@runtime';
+import { Nav } from '../components/Nav';
+import '../styles/base.css';
+import '../styles/vars.css';
+import 'uno.css';
 
 export function Layout() {
+  const pageData = usePageData();
+  const { pageType } = pageData;
+
+  const getContent = () => {
+    if (pageType === 'home') {
+      return <div>主页内容</div>;
+    } else if (pageType === 'doc') {
+      return <div>文档内容</div>;
+    } else {
+      return <div>404</div>;
+    }
+  };
+
   return (
     <div>
-      <h1 p="2" m="2" className="text-red">
-        This is Layout Component
-      </h1>
-      <Content />
+      <Nav />
+      <div> {getContent()}</div>
     </div>
   );
 }

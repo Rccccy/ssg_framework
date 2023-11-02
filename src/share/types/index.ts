@@ -1,3 +1,4 @@
+import { ComponentType } from 'react';
 import { UserConfig as viteConfiguration } from 'vite';
 
 export type NavItemWithLInk = {
@@ -40,4 +41,34 @@ export interface SiteConfig {
   root: string;
   configPath: string;
   siteData: UserConfig;
+}
+
+export type PageType = 'home' | 'doc' | '404' | 'custom';
+
+export interface FrontMatter {
+  title?: string;
+  description?: string;
+  pageType?: PageType;
+  sidebar?: boolean;
+  outline?: boolean;
+}
+
+export interface Header {
+  id: string;
+  text: string;
+  depth: number;
+}
+
+export interface PageData {
+  siteData: UserConfig;
+  pagePath: string;
+  frontmatter: FrontMatter;
+  pageType: PageType;
+  toc?: Header[];
+}
+
+export interface PageModule {
+  default: ComponentType;
+  frontmatter: FrontMatter;
+  [key: string]: unknown;
 }
