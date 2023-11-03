@@ -1,11 +1,30 @@
 import { VitePluginConfig } from 'unocss/vite';
 import { presetAttributify, presetWind, presetIcons } from 'unocss';
 
-export const options: VitePluginConfig = {
-  presets: [presetAttributify, presetWind, presetIcons],
+const options: VitePluginConfig = {
+  presets: [presetAttributify(), presetWind({}), presetIcons()],
   shortcuts: {
     'flex-center': 'flex justify-center items-center'
   },
+  rules: [
+    [
+      /^divider-(\w+)$/,
+      ([, w]) => ({
+        [`border-${w}`]: '1px solid var(--island-c-divider-light)'
+      })
+    ],
+    [
+      'menu-item-before',
+      {
+        'margin-right': '12px',
+        'margin-left': '12px',
+        width: '1px',
+        height: '24px',
+        'background-color': 'var(--island-c-divider-light)',
+        content: '" "'
+      }
+    ]
+  ],
   theme: {
     colors: {
       brandLight: 'var(--island-c-brand-light)',
@@ -36,24 +55,7 @@ export const options: VitePluginConfig = {
         mute: 'var(--island-c-bg-mute)'
       }
     }
-  },
-  rules: [
-    [
-      /^divider-(\w+)$/,
-      ([, w]) => ({
-        [`border-${w}`]: '1px solid var(--island-c-divider-light)'
-      })
-    ],
-    [
-      'menu-item-before',
-      {
-        'margin-right': '12px',
-        'margin-left': '12px',
-        width: '1px',
-        height: '24px',
-        'background-color': 'var(--island-c-divider-light)',
-        content: '" "'
-      }
-    ]
-  ]
+  }
 };
+
+export default options;

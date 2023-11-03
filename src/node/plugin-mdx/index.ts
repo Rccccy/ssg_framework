@@ -1,6 +1,6 @@
 import { pluginMdxRollup } from './pluginMdxRollup';
 import { Plugin } from 'vite';
-import { pluginMdxHMR } from './remarkPlugins/pluginMdxHmr';
+import { pluginMdxHMR } from './pluginMdxHmr';
 
 // Vite 热更新机制
 // 1. 监听文件变动
