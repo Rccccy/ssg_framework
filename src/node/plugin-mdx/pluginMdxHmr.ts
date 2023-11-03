@@ -11,6 +11,17 @@ export function pluginMdxHMR(): Plugin {
         (plugin) => plugin.name === 'vite:react-babel'
       ) as Plugin;
     },
+    handleHotUpdate(ctx) {
+      if (/\.mdx?/.test(ctx.file)) {
+        ctx.server.ws.send({
+          type: 'custom',
+          event: 'mdx-changed',
+          data: {
+            filePath: ctx.file
+          }
+        });
+      }
+    },
     async transform(code, id, opts) {
       if (/\.mdx?$/.test(id)) {
         assert(typeof viteReactPlugin.transform === 'function');

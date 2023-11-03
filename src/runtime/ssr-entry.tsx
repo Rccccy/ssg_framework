@@ -1,14 +1,17 @@
-// 服务端入口文件
-import { App } from './App';
+import { App, initPageData } from './app';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
-
-//这样可以拿到组件的HTML字符串
-export function render(pagePath: string) {
+import { DataContext } from './hooks';
+// For ssr component render
+export async function render(pagePath: string) {
+  // 生产 pageData
+  const pageData = await initPageData(pagePath);
   return renderToString(
-    <StaticRouter location={pagePath}>
-      <App />
-    </StaticRouter>
+    <DataContext.Provider value={pageData}>
+      <StaticRouter location={pagePath}>
+        <App />
+      </StaticRouter>
+    </DataContext.Provider>
   );
 }
 
