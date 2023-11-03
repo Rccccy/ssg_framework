@@ -1,3 +1,3 @@
 export default function B(){
-    return (<div>B</div>)
+    return (<div>hello,routeB</div>)
 }
