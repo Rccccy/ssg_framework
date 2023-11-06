@@ -20,3 +20,10 @@ export const SERVER_ENTRY_PATH = path.join(
   'runtime',
   'ssr-entry.tsx'
 );
+
+export const EXTERNALS = [
+  'react',
+  'react-dom',
+  'react-dom/client',
+  'react/jsx-runtime'
+];

@@ -1,7 +1,7 @@
 import { ComponentType } from 'react';
 import { UserConfig as viteConfiguration } from 'vite';
 
-export type NavItemWithLInk = {
+export type NavItemWithLink = {
   text: string;
   link: string;
 };
@@ -25,7 +25,7 @@ export interface Footer {
 }
 
 export interface ThemeConfig {
-  nav?: NavItemWithLInk[];
+  nav?: NavItemWithLink[];
   sidebar?: SiderBar;
   footer?: Footer;
 }
@@ -65,6 +65,7 @@ export interface PageData {
   frontmatter: FrontMatter;
   pageType: PageType;
   toc?: Header[];
+  title: string;
 }
 
 export interface PageModule {
@@ -72,6 +73,7 @@ export interface PageModule {
   frontmatter: FrontMatter;
   toc?: Header[];
   [key: string]: unknown;
+  title: string;
 }
 
 export interface Feature {
@@ -105,3 +107,7 @@ export interface FrontMatter {
   features?: Feature[];
   hero?: Hero;
 }
+
+export type PropsWithIsland = {
+  __island?: boolean;
+};

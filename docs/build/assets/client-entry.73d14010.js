@@ -9008,19 +9008,19 @@ var loadable$2 = loadable;
 loadable$2.lib = loadable$1;
 var lazy$2 = lazy;
 lazy$2.lib = lazy$1;
-const Route0 = loadable$2(() => __vitePreload(() => import("./a.221e4498.js"), true ? [] : void 0));
-const Route1 = loadable$2(() => __vitePreload(() => import("./b.5082201a.js"), true ? [] : void 0));
-const Route2 = loadable$2(() => __vitePreload(() => import("./c.8c8434f1.js"), true ? [] : void 0));
-const Route3 = loadable$2(() => __vitePreload(() => import("./index.0db6c48c.js"), true ? [] : void 0));
-const Route4 = loadable$2(() => __vitePreload(() => import("./index.162ca6a3.js"), true ? [] : void 0));
-const Route5 = loadable$2(() => __vitePreload(() => import("./index.f609a49d.js"), true ? [] : void 0));
+const Route0 = loadable$2(() => __vitePreload(() => import("./a.e540dbc0.js"), true ? [] : void 0));
+const Route1 = loadable$2(() => __vitePreload(() => import("./b.e8d1f268.js"), true ? [] : void 0));
+const Route2 = loadable$2(() => __vitePreload(() => import("./c.efe5f72b.js"), true ? [] : void 0));
+const Route3 = loadable$2(() => __vitePreload(() => import("./index.35b4bc04.js"), true ? [] : void 0));
+const Route4 = loadable$2(() => __vitePreload(() => import("./index.7b5cf1f2.js"), true ? [] : void 0));
+const Route5 = loadable$2(() => __vitePreload(() => import("./index.0dd3072f.js"), true ? [] : void 0));
 const routes = [
-  { path: "/guide/a", element: React.createElement(Route0), preload: () => __vitePreload(() => import("./a.221e4498.js"), true ? [] : void 0) },
-  { path: "/guide/b", element: React.createElement(Route1), preload: () => __vitePreload(() => import("./b.5082201a.js"), true ? [] : void 0) },
-  { path: "/guide/c", element: React.createElement(Route2), preload: () => __vitePreload(() => import("./c.8c8434f1.js"), true ? [] : void 0) },
-  { path: "/guide/", element: React.createElement(Route3), preload: () => __vitePreload(() => import("./index.0db6c48c.js"), true ? [] : void 0) },
-  { path: "/guide/", element: React.createElement(Route4), preload: () => __vitePreload(() => import("./index.162ca6a3.js"), true ? [] : void 0) },
-  { path: "/", element: React.createElement(Route5), preload: () => __vitePreload(() => import("./index.f609a49d.js"), true ? [] : void 0) }
+  { path: "/guide/a", element: React.createElement(Route0), preload: () => __vitePreload(() => import("./a.e540dbc0.js"), true ? [] : void 0) },
+  { path: "/guide/b", element: React.createElement(Route1), preload: () => __vitePreload(() => import("./b.e8d1f268.js"), true ? [] : void 0) },
+  { path: "/guide/c", element: React.createElement(Route2), preload: () => __vitePreload(() => import("./c.efe5f72b.js"), true ? [] : void 0) },
+  { path: "/guide/", element: React.createElement(Route3), preload: () => __vitePreload(() => import("./index.35b4bc04.js"), true ? [] : void 0) },
+  { path: "/guide/", element: React.createElement(Route4), preload: () => __vitePreload(() => import("./index.7b5cf1f2.js"), true ? [] : void 0) },
+  { path: "/", element: React.createElement(Route5), preload: () => __vitePreload(() => import("./index.0dd3072f.js"), true ? [] : void 0) }
 ];
 const Content = () => {
   const rootElement = useRoutes(routes);
@@ -9111,7 +9111,9 @@ function SwitchAppearance() {
     })]
   });
 }
-function MenuItem(item) {
+function MenuItem({
+  item
+}) {
   return /* @__PURE__ */ jsx("div", {
     className: "text-sm font-medium mx-3",
     children: /* @__PURE__ */ jsx("a", {
@@ -9147,10 +9149,9 @@ function Nav() {
         flex: "~",
         children: [/* @__PURE__ */ jsx("div", {
           flex: "~",
-          children: nav2.map((item) => /* @__PURE__ */ react.exports.createElement(MenuItem, {
-            ...item,
-            key: item.text
-          }))
+          children: nav2.map((item) => /* @__PURE__ */ jsx(MenuItem, {
+            item
+          }, item.text))
         }), /* @__PURE__ */ jsx("div", {
           before: "menu-item-before",
           flex: "~",
@@ -9421,8 +9422,12 @@ const styles = {
 };
 function usePrevNextPage() {
   var _a;
-  const { pathname } = useLocation();
-  const { siteData: siteData2 } = usePageData();
+  const {
+    pathname
+  } = useLocation();
+  const {
+    siteData: siteData2
+  } = usePageData();
   const sidebar2 = ((_a = siteData2.themeConfig) == null ? void 0 : _a.sidebar) || {};
   const flattenTitles = [];
   Object.keys(sidebar2).forEach((key) => {
@@ -9677,10 +9682,7 @@ function throttle(func, wait, options) {
 let links = [];
 const NAV_HEIGHT = 56;
 function scrollToTarget(target, isSmooth) {
-  const targetPadding = parseInt(
-    window.getComputedStyle(target).paddingTop,
-    10
-  );
+  const targetPadding = parseInt(window.getComputedStyle(target).paddingTop, 10);
   const targetTop = window.scrollY + target.getBoundingClientRect().top + targetPadding - NAV_HEIGHT;
   window.scrollTo({
     left: 0,
@@ -9691,9 +9693,7 @@ function scrollToTarget(target, isSmooth) {
 function bindingAsideScroll() {
   const marker = document.getElementById("aside-marker");
   const aside = document.getElementById("aside-container");
-  const headers = Array.from((aside == null ? void 0 : aside.getElementsByTagName("a")) || []).map(
-    (item) => decodeURIComponent(item.hash)
-  );
+  const headers = Array.from((aside == null ? void 0 : aside.getElementsByTagName("a")) || []).map((item) => decodeURIComponent(item.hash));
   if (!aside) {
     return;
   }
@@ -9709,9 +9709,7 @@ function bindingAsideScroll() {
     }
   };
   const setActiveLink = () => {
-    links = Array.from(
-      document.querySelectorAll(".island-doc .header-anchor")
-    ).filter((item) => {
+    links = Array.from(document.querySelectorAll(".island-doc .header-anchor")).filter((item) => {
       var _a;
       return ((_a = item.parentElement) == null ? void 0 : _a.tagName) !== "H1";
     });
@@ -9848,7 +9846,7 @@ function DocLayout() {
         className: styles$1.asideContainer,
         children: /* @__PURE__ */ jsx(Aside, {
           headers: toc,
-          __island: true
+          __island: "../../components/Aside/index!!ISLAND!!/Users/womeiyoukaigua/Desktop/my_project/SSG\u6846\u67B6\u5F00\u53D1/src/theme-default/Layout/DocLayout/index.tsx"
         })
       })]
     })]
